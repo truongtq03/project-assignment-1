@@ -7,18 +7,18 @@ go
 -- Bảng User
 CREATE TABLE Users (
     user_id INT PRIMARY KEY,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    name VARCHAR(255) NOT NULL,
+    email NVARCHAR(255) UNIQUE NOT NULL,
+    name NVARCHAR(255) NOT NULL,
     role_id INT,
-    address VARCHAR(255),
-    phone_no VARCHAR(20),
+    address NVARCHAR(255),
+    phone_no NVARCHAR(20),
     FOREIGN KEY (role_id) REFERENCES Role(role_id)
 );
 
 -- Bảng Role
 CREATE TABLE Role (
     role_id INT PRIMARY KEY,
-    name_role VARCHAR(50) NOT NULL
+    role_name NVARCHAR(50) NOT NULL
 );
 
 -- Bảng User_payment_method
@@ -26,8 +26,8 @@ CREATE TABLE User_payment_method (
     id INT PRIMARY KEY,
     payment_type_id INT,
     expiry_date DATE,
-    account_num VARCHAR(50),
-    provider VARCHAR(50),
+    account_num NVARCHAR(50),
+    provider NVARCHAR(50),
     user_id INT,
     FOREIGN KEY (payment_type_id) REFERENCES Payment_type(payment_type_id),
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
@@ -36,15 +36,15 @@ CREATE TABLE User_payment_method (
 -- Bảng Payment_type
 CREATE TABLE Payment_type (
     payment_type_id INT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL
+    name NVARCHAR(50) NOT NULL
 );
 
 -- Bảng User_review
 CREATE TABLE User_review (
     review_id INT PRIMARY KEY,
     user_id INT,
-    rating_value INT,
-    comment TEXT,
+    rating_value DECIMAL(1,1),
+    comment text,
     ordered_product_id INT, 
     FOREIGN KEY (user_id) REFERENCES Users(user_id),
     FOREIGN KEY (ordered_product_id) REFERENCES Order_line(id) 
@@ -70,23 +70,23 @@ CREATE TABLE Shop_order (
 -- Bảng Order_status
 CREATE TABLE Order_status (
     id INT PRIMARY KEY,
-    status VARCHAR(50) NOT NULL
+    status NVARCHAR(50) NOT NULL
 );
 
 -- Bảng Shipping_method
 CREATE TABLE Shipping_method (
     id INT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
+    name NVARCHAR(50) NOT NULL,
     price DECIMAL(10, 2) NOT NULL
 );
 
 -- Bảng Address
 CREATE TABLE Address (
     address_id INT PRIMARY KEY,
-    address_line1 VARCHAR(255) NOT NULL,
-    address_line2 VARCHAR(255),
-    city VARCHAR(100) NOT NULL,
-    postal_code VARCHAR(20) NOT NULL,
+    address_line1 NVARCHAR(255) NOT NULL,
+    address_line2 NVARCHAR(255),
+    city NVARCHAR(100) NOT NULL,
+    postal_code NVARCHAR(20) NOT NULL,
     country_id INT,
     FOREIGN KEY (country_id) REFERENCES Country(country_id)
 );
@@ -95,7 +95,6 @@ CREATE TABLE Address (
 CREATE TABLE User_address (
     address_id INT,
     user_id INT,
-    is_default tinyint,
     PRIMARY KEY (address_id, user_id), 
     FOREIGN KEY (address_id) REFERENCES Address(address_id),
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
@@ -116,24 +115,24 @@ CREATE TABLE Order_line (
 CREATE TABLE Product_item (
     id INT PRIMARY KEY,
 	category_id INT NOT NULL,
-	name VARCHAR(255),
-	description VARCHAR(255),
+	name NVARCHAR(255),
+	description NVARCHAR(255),
     price DECIMAL(10, 2) NOT NULL,
     qty_in_stock INT NOT NULL,
-    product_image VARCHAR(255),
+    product_image NVARCHAR(255),
     FOREIGN KEY (category_id) REFERENCES Product_category(id)
 );
 
 -- Bảng Product_category
 CREATE TABLE Product_category (
     id INT PRIMARY KEY NOT NULL,
-    category_name VARCHAR(100) NOT NULL
+    category_name NVARCHAR(100) NOT NULL
 );
 
 -- Bảng Variation
 CREATE TABLE Variation (
     id INT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
+    name NVARCHAR(100) NOT NULL,
     category_id INT,
     FOREIGN KEY (category_id) REFERENCES Product_category(id)
 );
@@ -142,7 +141,7 @@ CREATE TABLE Variation (
 CREATE TABLE Variation_option (
     id INT PRIMARY KEY,
     variation_id INT,
-    value VARCHAR(100) NOT NULL,
+    value NVARCHAR(100) NOT NULL,
     FOREIGN KEY (variation_id) REFERENCES Variation(id)
 );
 
@@ -158,7 +157,7 @@ CREATE TABLE Product_configuration (
 -- Bảng Promotion
 CREATE TABLE Promotion (
     id INT PRIMARY KEY,
-    code VARCHAR(50) UNIQUE NOT NULL,
+    code NVARCHAR(50) UNIQUE NOT NULL,
     description TEXT,
     discount_rate DECIMAL(5, 2) NOT NULL,
     start_date DATE NOT NULL,
@@ -194,6 +193,6 @@ CREATE TABLE Shopping_cart_item (
 -- Bảng Country
 CREATE TABLE Country (
     country_id INT PRIMARY KEY,
-    country_name VARCHAR(100) NOT NULL
+    country_name NVARCHAR(100) NOT NULL
 );
 
